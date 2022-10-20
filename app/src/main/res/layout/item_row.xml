@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="5dp"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardBackgroundColor="@color/carviewColor"
+    android:id="@+id/cardView"
+    card_view:contentPadding="10dp"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linear_layout"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:text="Title"
+            android:padding="5dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout"
+            android:layout_marginTop="5dp"
+            android:layout_weight="2"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvRecipeIngredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="bottom"
+                android:text="@string/Ingredient_text"
+                android:padding="5dp"
+                android:textColor="@color/darkGray"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                />
+
+            <Button
+                android:id="@+id/fullRecipeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:layout_below="@+id/tvRecipeIngredients"
+                android:backgroundTint="#CEB38A"
+                android:padding="5dp"
+                android:text="@string/save"
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

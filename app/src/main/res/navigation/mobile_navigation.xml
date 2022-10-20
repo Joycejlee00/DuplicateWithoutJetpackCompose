@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_ingredient">
+
+    <!-- This directs one fragment to another.Start destination is the ingredient fragment.
+     Then directs to the next fragment by locating the specific kotlin fragment file -->
+    <fragment
+        android:id="@+id/navigation_ingredient"
+        android:name="com.example.bottomnavwfab.ui.ingredient.IngredientFragment"
+        android:label="@string/title_ingredient"
+        tools:layout="@layout/fragment_ingredient" >
+        <action
+            android:id="@+id/action_navigation_ingredient_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.bottomnavwfab.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_history"
+        android:name="com.example.bottomnavwfab.ui.history.HistoryFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_history" />
+</navigation>
