@@ -76,7 +76,7 @@ class checkForExistingRecyclerview {
         val recyclerView = onView(
             allOf(
                 withId(R.id.recyclerView),
-                withParent(withParent(withId(R.id.lin_layout))),
+                withParent(withParent(withId(R.id.linear_layout))),
                 isDisplayed()
             )
         )
