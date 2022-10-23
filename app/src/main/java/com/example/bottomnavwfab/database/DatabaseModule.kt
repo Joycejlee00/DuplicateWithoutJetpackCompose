@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.example.bottomnavwfab.ui.history.HistoryViewModel
 
-import com.example.bottomnavwfab.ui.history.RecipeViewModelFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +28,6 @@ class DatabaseModule {
             appContext,
             AppDatabase::class.java,
             "recipe_table"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
     }
 }

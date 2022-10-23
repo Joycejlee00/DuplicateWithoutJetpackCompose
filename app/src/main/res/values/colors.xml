@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#146356</color> <!-- Used dark green for color of very top navigation -->
-    <color name="purple_700">#146356</color> <!-- Dark green for the header (where it says the fragment name) -->
-    <color name="teal_200">#54CF40</color>
+    <color name="purple_200">#395B64</color>
+    <color name="purple_500">#395B64</color>
+    <color name="purple_700">#395B64</color>
+    <color name="teal_200">#9DE591</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="dark_green">#146356</color>
-    <color name="lightdark_green">#127363</color>
-    <color name="unclicked_icon">#D8D8D8</color>
-    <color name="clicked_icon">#A3DA8D</color>
     <color name="semi_black">#2C3333</color>
-    <color name="darkGray">#7C7C7C</color>
-    <color name="carviewColor">#E3CEAE</color>
+    <color name="ButtonColor">#65A59B</color>
+    <color name="potentialLightGray">#F3F3F3</color>
+
+    <!-- Testing colors -->
+    <color name="darkBlue">#395B64</color>
+    <color name="lightBlue">#A5C9CA</color>
+    <color name="darkBlack">#2C3333</color>
+    <color name="vLightBlue">#E7F6F2</color>
+    <color name="darkGray">#D3D3D3</color>
 </resources>

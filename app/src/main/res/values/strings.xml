@@ -8,9 +8,12 @@
     <string name="Ingredient_text">Recipe Ingredients</string>
     <string name="input_ingredients">Input Ingredients</string>
     <string name="generate_recipes">Generate Recipes</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="recipeTitle">Title</string>
+    <string name="recipeIngredients">Recipe Ingredients</string>
+    <string name="splashNightTitle">Splash Night</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="search_bar_name">Search</string>
+
 </resources>

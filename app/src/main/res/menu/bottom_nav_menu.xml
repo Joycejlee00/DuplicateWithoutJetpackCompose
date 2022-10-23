@@ -5,7 +5,7 @@
      Ingredient fragment will not be in the bottom nav bar so it is not listed here -->
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/ic_home_black_24dp"
         android:title="Home"/>
 
     <item

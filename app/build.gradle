@@ -49,8 +49,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
     implementation 'androidx.camera:camera-core:1.1.0'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0-beta01'
     implementation 'com.google.android.material:material:1.8.0-alpha01'
 
     // object detection
@@ -72,6 +72,7 @@ dependencies {
 
     // RoomDB
     implementation("androidx.room:room-runtime:2.4.3")
+    androidTestImplementation 'androidx.test:rules:1.4.1-beta01'
     kapt "androidx.room:room-compiler:2.4.3"
 
     //Glide [to show image in imageView]

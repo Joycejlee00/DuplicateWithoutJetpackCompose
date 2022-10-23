@@ -23,6 +23,7 @@ interface RecipeDao {
     @Query("DELETE FROM recipe_table")
     fun deleteAll()
 
+    // For database testing
     @Query("SELECT (SELECT COUNT(*) FROM recipe_table) == 0")
     fun isEmpty(): Boolean
 }

@@ -1,27 +1,21 @@
 package com.example.bottomnavwfab.ui.home
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bottomnavwfab.data.MainViewModelFactory
 import com.example.bottomnavwfab.R
 import com.example.bottomnavwfab.databinding.FragmentHomeBinding
-import com.example.bottomnavwfab.api.Repository
 import com.example.bottomnavwfab.data.RecipeData
 import com.example.bottomnavwfab.database.Recipe
 import com.example.bottomnavwfab.ui.history.HistoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -34,7 +28,7 @@ class HomeFragment : Fragment() {
     private val dbViewModel: HistoryViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private val adapter = MyAdapter()
-    var recipeList = ArrayList<RecipeData>()
+    private var recipeList = ArrayList<RecipeData>()
 
 
     //The onCreateView inflates the current fragment which is the Home fragment.
@@ -45,16 +39,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        // val button = view?.findViewById<Button>(R.id.generateButton)
-        Log.i(TAG, "onCreateView: homefragment")
-        return root
+        return binding.root
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.i(TAG, "onStart: homefragment started")
     }
 
     /**
@@ -66,7 +52,7 @@ class HomeFragment : Fragment() {
 
         //initialize the string that is being passed from the Ingredient Fragment
         val sendString = this.arguments?.getString("setIngredients")
-        Log.e("sent", sendString.toString())
+
         recyclerView = view.findViewById(R.id.recyclerView)
         initRecyclerView()
 
@@ -77,73 +63,45 @@ class HomeFragment : Fragment() {
         viewModel.getLiveDataObserver().observe(viewLifecycleOwner) {
             if (it != null) {
                 recipeList = it
-                // Log.e("recipeList", recipeList.toString())
                 adapter.setRecipeList(it)
-                Log.i(TAG, "recipielist: "+recipeList.toString())
-                Log.i(TAG, "it: "+it.toString())
-                setupSearchView()
-                // recyclerView.scrollToPosition(it.size - 1)
             } else {
                 Toast.makeText(context, "Error in getting List", Toast.LENGTH_SHORT).show()
             }
         }
         //callGenerateList takes in a string parameter of the ingredient and displays the recyclerview
         viewModel.callGenerateList(sendString.toString())
-        Log.i(TAG, "send String - params for API: --${sendString.toString()}")
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
     //second filter function for future implementation
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.search_menu, menu)
-//
-//        val searchItem: MenuItem = menu.findItem(R.id.action_search)
-//        val searchView: SearchView = searchItem.actionView as SearchView
-//
-//        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                //adapter.filter.filter(newText)
-//                if (newText != null) {
-//                    filter(newText)
-//                }
-//
-//                return false
-//            }
-//
-//        })
-//
-//        super.onCreateOptionsMenu(menu, inflater)
-//        //return true
-//    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
 
+        val searchItem: MenuItem = menu.findItem(R.id.action_search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+        searchView.queryHint = "Type to search for recipes!"
 
-
-
-
-
-    private fun setupSearchView(){
-        binding.recipeSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            //when the user is done entering text and presses enter
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
-            //while entering text in the searchView
-            override fun onQueryTextChange(msg: String?): Boolean {
-                //val charSearch = newText
-                adapter.filter.filter(msg)
-                /*  if (msg != null) {
-                      filter(msg)
-                  }*/
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    filter(newText)
+                }
                 return false
             }
 
         })
-    }
 
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     //first filter function used for testing purposes
     private fun filter(text: String) {
@@ -153,23 +111,20 @@ class HomeFragment : Fragment() {
         // running a for loop to compare elements.
         for (item in recipeList) {
             // checking if the entered string matched with any item of our recycler view.
-            if (item.title?.toLowerCase()?.contains(text.toLowerCase()) == true) {
+            if (item.title?.lowercase(Locale.getDefault())
+                    ?.contains(text.lowercase(Locale.getDefault())) == true
+            ) {
                 // if the item is matched we are
                 // adding it to our filtered list.
                 filteredlist.add(item)
             }
         }
-        if (filteredlist.isEmpty()) {
-            // if no item is added in filtered list we are
-            // displaying a toast message as no data found.
-            // Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
-        } else {
+        if (filteredlist.isNotEmpty()) {
             // at last we are passing that filtered
             // list to our adapter class.
             adapter.filterList(filteredlist)
         }
     }
-
 
     /**
      * The helperFunction that initializes the RecyclerView
@@ -191,10 +146,5 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-
-    companion object{
-        val TAG = HomeFragment::class.java.simpleName
     }
 }

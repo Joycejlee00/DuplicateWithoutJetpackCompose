@@ -1,5 +1,6 @@
 package com.example.bottomnavwfab.ui.home
 
+import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,16 +12,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
+
 @HiltViewModel
-class HomeViewModel @Inject constructor(): ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    val repository = Repository()
-
-    var liveDataList: MutableLiveData<ArrayList<RecipeData>>
-
-    init {
-        liveDataList = MutableLiveData()
-    }
+    var liveDataList: MutableLiveData<ArrayList<RecipeData>> = MutableLiveData()
 
     fun getLiveDataObserver(): MutableLiveData<ArrayList<RecipeData>> {
         return liveDataList
@@ -29,8 +25,7 @@ class HomeViewModel @Inject constructor(): ViewModel() {
     fun callGenerateList(ingredients: String) {
         Log.e("homeviewmodel", ingredients)
         val recipesList: Call<ArrayList<RecipeData>> =
-            //dont hardcode the strings
-            repository.getInfo("18d08d02d1eb4bc6a9bd56fb36f4cf24",ingredients, 5)
+            repository.getInfo("057efdc3940f476286fccda0ea8957e1", ingredients, 5)
 
         recipesList.enqueue(object : Callback<ArrayList<RecipeData>> {
 
@@ -39,21 +34,15 @@ class HomeViewModel @Inject constructor(): ViewModel() {
                 response: Response<ArrayList<RecipeData>>
             ) {
 
-
-                //liveDataList.postValue(response.body())
-                //               generateDataList(response)
                 liveDataList.postValue(response.body())
 
                 Log.e("recipesList", recipesList.toString())
 
             }
 
-
             override fun onFailure(call: Call<ArrayList<RecipeData>>, t: Throwable) {
-//                Toast.makeText(this@HomeFragment, "Something went wrong", Toast.LENGTH_SHORT)
-//                    .show()
+                Log.i(ContentValues.TAG, "onFailure: something went wrong")
             }
         })
-
     }
 }

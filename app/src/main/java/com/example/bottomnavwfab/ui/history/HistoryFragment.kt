@@ -1,9 +1,7 @@
 package com.example.bottomnavwfab.ui.history
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
@@ -27,7 +25,7 @@ class HistoryFragment : Fragment() {
     private val viewModel: HistoryViewModel by viewModels()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: HistoryAdapter
-    var recipeList: List<Recipe> = listOf()
+    private var recipeList: List<Recipe> = listOf()
 
     //The onCreateView inflates the current fragment which is the History fragment.
     //It calls the fragment_history.xml file to display the said recyclerview
@@ -35,31 +33,20 @@ class HistoryFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        //return inflater.inflate(R.layout.fragment_history, container, false)
+    ): View {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+        return binding.root
     }
 
-    /**
-     * onViewCreated initializes the recyclerView as well as calls the helper function that initializes
-     * the recyclerView layout manager + adapter.
-     */
+    //onViewCreated initializes the recyclerView as well as calls the helper function that initializes
+    //the recyclerView layout manager + adapter.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recyclerViewHistory)
         val fab = view.findViewById<FloatingActionButton>(R.id.fabHistory)
         initRecyclerView()
 
-        // initially hide the fab
         fab.hide()
-
-        /**
-         * Repository is initialized as well as the viewModelFactory that calls the HistoryViewModel class
-         * The HistoryViewModel class is where all the data is being grabbed (e.i: The title, recipe ingredients, etc)
-         */
 
         // reformatted to account for the search widget
         adapter = HistoryAdapter()
@@ -81,22 +68,17 @@ class HistoryFragment : Fragment() {
 
         // use an observer to set the recipe list in the adapter
         viewModel.getLiveDataObserver().observe(viewLifecycleOwner) {
-            // if recipelist is populated, show the fab
-            if (it.isNotEmpty()) {
-                fab.show()
-            }
-            if (it != null) {
+            if (viewModel.isEmpty()) fab.hide() else fab.show()
 
+            if (it != null) {
                 recipeList = it
                 adapter.setRecipeList(it)
-                setupSearchView()
-                //adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(context, "Error in getting List", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // set the onclick listener for the FAB
+        // set the onclick listener for the FAB.
         fab.setOnClickListener {
             val builder = context?.let { it1 -> AlertDialog.Builder(it1) }
             builder?.setTitle("Are you sure you want to clear history?")
@@ -113,27 +95,38 @@ class HistoryFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
 
-    private fun setupSearchView(){
-        binding.historySearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            //when the user is done entering text and presses enter
+
+    //second filter function for future implementation
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem: MenuItem = menu.findItem(R.id.action_search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+        searchView.queryHint = "Type to search for recipes!"
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
-            //while entering text in the searchView
-            override fun onQueryTextChange(msg: String?): Boolean {
-                //val charSearch = newText
-                adapter.filter.filter(msg)
-                /*  if (msg != null) {
-                      filter(msg)
-                  }*/
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                //adapter.filter.filter(newText)
+                if (newText != null) {
+                    adapter.filter.filter(newText)
+                }
+
                 return false
             }
 
         })
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
-
-
 
     // init the recycler view
     private fun initRecyclerView() {

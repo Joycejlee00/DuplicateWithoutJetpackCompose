@@ -3,7 +3,7 @@ import com.example.bottomnavwfab.data.RecipeData
 import retrofit2.Call
 import retrofit2.http.*
 
-interface SimpleApi {
+interface GetDataService {
 
     //QUERY parameters to set endpoints
     @GET("recipes/findByIngredients")

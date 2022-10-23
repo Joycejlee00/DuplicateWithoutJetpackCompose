@@ -9,26 +9,6 @@
     android:orientation="vertical"
     tools:context=".ui.history.HistoryFragment">
 
-
-
-    <!-- search view made for filtering history list   -->
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/history_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:defaultQueryHint="Click here to search for saved recipes!"
-        android:background="@color/dark_green"
-        android:textCursorDrawable="@null"
-        app:iconifiedByDefault="false"
-        app:queryBackground="@null" />
-
-
-
-
-
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -36,25 +16,29 @@
         <!-- History fragment displays the recyclerview
 -> takes in item_row.xml for row components -->
         <!-- Add FAB Here -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabHistory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/dark_green"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/delete"
-            app:maxImageSize="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewHistory"
+            android:layout_marginBottom="58dp"
+            android:paddingTop="?attr/actionBarSize"
+            android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_row_history" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/darkBlue"
+        app:backgroundTint="@color/black"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/delete"
+        app:maxImageSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </LinearLayout>
